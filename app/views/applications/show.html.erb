@@ -1,0 +1,14 @@
+<h1><center>Applications</h1>
+<br>
+<li><b>Name: </b><%= @application.name %>
+<li><b>Street Address: </b><%= @application.street_address %>
+<li><b>City: </b><%= @application.city %>
+<li><b>State: </b><%= @application.state %>
+<li><b>Zip Code: </b><%= @application.zip_code %>
+<li><b>Status: </b><%= @application.status %>
+<li><b>Description: </b><%= @application.description %>
+<br>
+<br>
+<li><% @application.pets.each do |pet|%>
+  <b>Pet Name: </b><%= pet.name %>
+<%end%></li>
