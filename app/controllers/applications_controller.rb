@@ -5,15 +5,19 @@ class ApplicationsController < ApplicationController
   end
 
   def new
-    # @application = Application.all.first
-    # require 'pry'; binding.pry
+   
   end
 
   def create
-    application = Application.create!(application_params)
-
-    redirect_to "/applications/#{application.id}"
+    application = Application.new(application_params)
+    if application.save
+      redirect_to "/applications/#{application.id}"
+    else
+      redirect_to "/applications/new"
+      flash[:alert] = "ERROR: Form incomplete, please fill in all fields"
+    end
   end
+
   private
   def application_params
     params.permit(:name, :street_address, :city, :state, :zip_code, :description, :status)
