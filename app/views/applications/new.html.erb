@@ -1,0 +1,18 @@
+<h1><center> New Application</h>
+
+<%= form_with method: :post, local: true do |form| %>
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+  <%= form.label :street_address, "Street Address" %>
+  <%= form.text_field :street_address %>
+  <%= form.label :city %>
+  <%= form.text_field :city %>
+  <%= form.label :state %>
+  <%= form.text_field :state %>
+  <%= form.label :zip_code %>
+  <%= form.text_field :zip_code %>
+  <%= form.label :description %>
+  <%= form.text_field :description %>
+  
+  <%= form.submit "Create New Application" %>
+<% end %>
