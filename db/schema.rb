@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_221516) do
     t.string "state"
     t.string "zip_code"
     t.text "description"
-    t.string "status"
+    t.string "status", default: "In Progress"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
