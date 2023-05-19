@@ -47,7 +47,6 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(page).to have_content(applicant1.status)
       expect(page).to have_content(applicant1.description)
       expect(page).to have_content(applicant1.pets.name)
-      save_and_open_page
     end
   end
 end
