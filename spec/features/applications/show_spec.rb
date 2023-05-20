@@ -33,6 +33,11 @@ RSpec.describe "Applications Show Page", type: :feature do
                                         age: 6, 
                                         breed: "Calico")} 
   
+  let!(:pet2) { shelter1.pets.create!(  name: "Mr. Ralph", 
+                                        adoptable: true, 
+                                        age: 3, 
+                                        breed: "Clydesdale")} 
+  
   let!(:pet_application1) {PetApplication.create!(  pet_id: pet1.id,
                                                     application_id: applicant1.id)}
 
@@ -49,4 +54,32 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(page).to have_content(applicant1.pets.name)
     end
   end
+
+  describe "Searching for Pets for an Application" do
+    it "should display a section that allows you to search for pets" do
+      visit "/applications/#{applicant1.id}"
+
+      expect(page).to have_content("Add a Pet to this Application")
+      expect(page).to have_button("Find Pet")
+
+      fill_in(:search, with: "Ralph")
+      click_button("Find Pet")
+
+      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(page).to have_content("Ralph")
+      expect(page).to have_content("Mr. Ralph")
+    end
+  end
 end
+
+# 4. Searching for Pets for an Application
+
+# As a visitor
+# When I visit an application's show page
+# And that application has not been submitted,
+# Then I see a section on the page to "Add a Pet to this Application"
+# In that section I see an input where I can search for Pets by name
+# When I fill in this field with a Pet's name
+# And I click submit,
+# Then I am taken back to the application show page
+# And under the search bar I see any Pet whose name matches my search

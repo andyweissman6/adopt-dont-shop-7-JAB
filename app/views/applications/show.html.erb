@@ -1,7 +1,7 @@
 <h1><center>Applications</h1>
 <br>
-<li><b>Name: </b><%= @application.name %>
-<li><b>Street Address: </b><%= @application.street_address %>
+<li><b>Name: </b><%= @application.name %></li>
+<li><b>Street Address: </b><%= @application.street_address %></li>
 <li><b>City: </b><%= @application.city %>
 <li><b>State: </b><%= @application.state %>
 <li><b>Zip Code: </b><%= @application.zip_code %>
@@ -12,3 +12,12 @@
 <li><% @application.pets.each do |pet|%>
   <b>Pet Name: </b><%= pet.name %>
 <%end%></li>
+
+<section><h1><center>Add a Pet to this Application</h1>
+<%=form_with url: "/applications/#{@application.id}", method: :get, local: true do |form|%>
+  <%= form.label :search %>
+  <%= form.text_field :search %>
+  
+  <%= form.submit "Find Pet" %>
+<%end%>
+</section>
