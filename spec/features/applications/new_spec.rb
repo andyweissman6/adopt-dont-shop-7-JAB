@@ -11,7 +11,6 @@ RSpec.describe "Application new page" do
       fill_in(:city, with: "Ryan Reynoldsville")
       fill_in(:state, with: "CA")
       fill_in(:zip_code, with: "69402")
-      fill_in(:description, with: "I am DEADPOOL")
 
       click_button("Create New Application")
 
@@ -22,7 +21,7 @@ RSpec.describe "Application new page" do
       expect(page).to have_content("CA")
       expect(page).to have_content("69402")
       expect(page).to have_content("In Progress")
-      expect(page).to have_content("I am DEADPOOL")
+      expect(page).to have_content("N/A")
     end
   end
 
@@ -35,7 +34,6 @@ RSpec.describe "Application new page" do
       fill_in(:city, with: "Ryan Reynoldsville")
       fill_in(:state, with: "CA")
       fill_in(:zip_code, with: "69")
-      fill_in(:description, with: "I am DEADPOOL")
 
       click_button("Create New Application")
       expect(current_path).to eq("/applications/new")

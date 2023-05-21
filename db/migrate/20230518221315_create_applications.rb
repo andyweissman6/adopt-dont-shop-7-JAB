@@ -6,7 +6,7 @@ class CreateApplications < ActiveRecord::Migration[7.0]
       t.string :city
       t.string :state
       t.string :zip_code
-      t.text :description
+      t.text :description, default: "N/A"
       t.string :status, default: "In Progress"
 
       t.timestamps
