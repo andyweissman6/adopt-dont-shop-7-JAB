@@ -6,7 +6,6 @@ RSpec.describe Application, type: :model do
                                             city: "Denver", 
                                             state: "CO", 
                                             zip_code: "12345", 
-                                            status: "Accepted", 
                                             description: "Cat Lover")} 
   
   let!(:shelter1) { Shelter.create!(  name: "RM Animal Shelter", 
@@ -38,11 +37,5 @@ RSpec.describe Application, type: :model do
     it { should validate_presence_of(:state) }
     it { should validate_presence_of(:description) }
     it { should validate_length_of(:zip_code).is_equal_to(5) }
-  end
-
-  describe "instance methods" do
-    it "#search_pet" do
-      expect(Application.search_pet("Ralph")).to eq([pet1, pet2])
-    end
   end
 end

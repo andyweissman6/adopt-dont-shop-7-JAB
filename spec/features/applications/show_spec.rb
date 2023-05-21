@@ -20,7 +20,7 @@ RSpec.describe "Applications Show Page", type: :feature do
                                             city: "Denver", 
                                             state: "CO", 
                                             zip_code: "12345", 
-                                            status: "Accepted", 
+                                            status: "In Progress", 
                                             description: "Cat Lover")} 
   
   let!(:shelter1) { Shelter.create!(  name: "RM Animal Shelter", 
@@ -58,16 +58,18 @@ RSpec.describe "Applications Show Page", type: :feature do
   describe "Searching for Pets for an Application" do
     it "should display a section that allows you to search for pets" do
       visit "/applications/#{applicant1.id}"
-
       expect(page).to have_content("Add a Pet to this Application")
       expect(page).to have_button("Find Pet")
-
+      
+      
       fill_in(:search, with: "Ralph")
       click_button("Find Pet")
+      
 
       expect(current_path).to eq("/applications/#{applicant1.id}")
       expect(page).to have_content("Ralph")
       expect(page).to have_content("Mr. Ralph")
+      
     end
   end
 end

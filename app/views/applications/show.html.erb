@@ -13,11 +13,19 @@
   <b>Pet Name: </b><%= pet.name %>
 <%end%></li>
 
-<section><h1><center>Add a Pet to this Application</h1>
-<%=form_with url: "/applications/#{@application.id}", method: :get, local: true do |form|%>
-  <%= form.label :search %>
-  <%= form.text_field :search %>
-  
-  <%= form.submit "Find Pet" %>
+<% if @application.status == "In Progress" %>
+<h1><center>Add a Pet to this Application</h1>
+  <%=form_with url: "/applications/#{@application.id}", method: :get, local: true do |form|%>
+    <%= form.label :search %>
+    <%= form.text_field :search %>
+    
+    <%= form.submit "Find Pet" %>
+  <%end%>
+
+  <% if params[:search] %>
+    <% @found_pets.each do |found_pet| %>
+      <li><%= found_pet.name %></li>
+    <%end%>
+  <%end%>
+
 <%end%>
-</section>
