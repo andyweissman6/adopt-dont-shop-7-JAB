@@ -1,0 +1,52 @@
+<center><img src="https://www.helpfulhorsehints.com/wp-content/uploads/horse-and-cat-nose-to-nose-ss220408-540x700.jpg.webp" alt="Horse_with_cat" width="200" height="300" ></center>
+<h1 style="background-color:grey;"><center>Applications</h1>
+<br>
+<li><b>Name: </b><%= @application.name %></li>
+<li><b>Street Address: </b><%= @application.street_address %></li>
+<li><b>City: </b><%= @application.city %>
+<li><b>State: </b><%= @application.state %>
+<li><b>Zip Code: </b><%= @application.zip_code %>
+<li><b>Status: </b><%= @application.status %>
+<li><b>Description: </b><%= @application.description %>
+<br>
+<br>
+  <b>Pets On This Application: </b>
+<ul><% @application.pets.each do |pet|%>
+  <li><%= button_to "#{pet.name}", "/pets/#{pet.id}", method: :get %></li>
+<%end%></ul>
+
+<% if @application.status == "In Progress" %>
+<h1 style="background-color:grey;"><center>Add a Pet to this Application</h1>
+  <%=form_with url: "/applications/#{@application.id}", method: :get, local: true do |form|%>
+    <%= form.label :search %>
+    <%= form.text_field :search %>
+    
+    <%= form.submit "Find Pet" %>
+  <%end%>
+
+  <% if params[:search] %>
+    <% @found_pets.each do |found_pet| %>
+      <li><%= found_pet.name %><%= form_with url: "/pet_applications", method: :post, local: true do |form|%>
+        <%= form.hidden_field :application_id, value: @application.id %>
+        <%= form.hidden_field :pet_id, value: found_pet.id %>
+        <%= form.submit "Adopt #{found_pet.name}" %>
+        <%end%>
+      </li>
+    
+    <%end%>
+  <%end%>
+
+<%end%>
+<br>
+<br>
+<% if @application.status == "In Progress" && !@application.pets.empty? %>
+
+<h1 style="background-color:grey;"><center>Why Should This Pet Go To Your Home?</h1>
+  <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
+  <%= form.label :description, "Please provide a statement why you're a good host" %>
+  <%= form.text_field :description %>
+  <%= form.hidden_field :status, value: "Pending" %>
+
+  <%= form.submit "Submit My Application" %>
+  <% end %>
+<% end %>
