@@ -137,16 +137,30 @@ RSpec.describe "Applications Show Page", type: :feature do
                                             zip_code: "54321",
                                             description: "unavailable")}
 
-    it "should return pets with partial lettering" do
+    it "should return pets with partial lettering and case insensitive" do
 
       visit "/applications/#{applicant3.id}"
 
-      fill_in(:search, with:"s")
+      fill_in(:search, with:"STE")
       click_button("Find Pet")
 
       expect(current_path).to eq("/applications/#{applicant3.id}")
       expect(page).to have_content("Steve")
+
+      visit "/applications/#{applicant3.id}"
+
+      fill_in(:search, with:"eve")
+      click_button("Find Pet")
+
+      expect(current_path).to eq("/applications/#{applicant3.id}")
+      expect(page).to have_content("Steve")
+
     end 
   end
 end
 
+# As a visitor
+# When I visit an application show page
+# And I search for Pets by name
+# Then my search is case insensitive
+# For example, if I search for "fluff", my search would match pets with names "Fluffy", "FLUFF", and "Mr. FlUfF"
