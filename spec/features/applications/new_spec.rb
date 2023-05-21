@@ -38,7 +38,6 @@ RSpec.describe "Application new page" do
       fill_in(:description, with: "I am DEADPOOL")
 
       click_button("Create New Application")
-      save_and_open_page
       expect(current_path).to eq("/applications/new")
       expect(page).to have_content("ERROR: Form incomplete, please fill in all fields")
     end

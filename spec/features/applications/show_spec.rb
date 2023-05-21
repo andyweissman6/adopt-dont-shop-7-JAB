@@ -1,18 +1,5 @@
 require "rails_helper"
 
-#[ ] done
-
-# 1. Application Show Page
-
-# As a visitor
-# When I visit an applications show page
-# Then I can see the following:
-# - Name of the Applicant
-# - Full Address of the Applicant including street address, city, state, and zip code
-# - Description of why the applicant says they'd be a good home for this pet(s)
-# - names of all pets that this application is for (all names of pets should be links to their show page)
-# - The Application's status, either "In Progress", "Pending", "Accepted", or "Rejected"
-
 RSpec.describe "Applications Show Page", type: :feature do
 
   let!(:applicant1) { Application.create!( name: "Bruce", 
@@ -20,7 +7,7 @@ RSpec.describe "Applications Show Page", type: :feature do
                                             city: "Denver", 
                                             state: "CO", 
                                             zip_code: "12345", 
-                                            status: "Accepted", 
+                                            status: "In Progress", 
                                             description: "Cat Lover")} 
   
   let!(:shelter1) { Shelter.create!(  name: "RM Animal Shelter", 
@@ -32,6 +19,11 @@ RSpec.describe "Applications Show Page", type: :feature do
                                         adoptable: true, 
                                         age: 6, 
                                         breed: "Calico")} 
+  
+  let!(:pet2) { shelter1.pets.create!(  name: "Mr. Ralph", 
+                                        adoptable: true, 
+                                        age: 3, 
+                                        breed: "Clydesdale")} 
   
   let!(:pet_application1) {PetApplication.create!(  pet_id: pet1.id,
                                                     application_id: applicant1.id)}
@@ -47,6 +39,24 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(page).to have_content(applicant1.status)
       expect(page).to have_content(applicant1.description)
       expect(page).to have_content(applicant1.pets.name)
+    end
+  end
+
+  describe "Searching for Pets for an Application" do
+    it "should display a section that allows you to search for pets" do
+      visit "/applications/#{applicant1.id}"
+      expect(page).to have_content("Add a Pet to this Application")
+      expect(page).to have_button("Find Pet")
+      
+      
+      fill_in(:search, with: "Ralph")
+      click_button("Find Pet")
+      
+
+      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(page).to have_content("Ralph")
+      expect(page).to have_content("Mr. Ralph")
+      
     end
   end
 end
