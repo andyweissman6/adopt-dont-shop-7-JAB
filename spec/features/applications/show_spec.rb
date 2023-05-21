@@ -59,4 +59,19 @@ RSpec.describe "Applications Show Page", type: :feature do
       
     end
   end
+
+  describe "displays a button to adopt a pet next to each search results" do
+    it "should display a button to adopt a pet next to each search result and be directed back to the same page" do
+      visit "/applications/#{applicant1.id}"
+
+      fill_in(:search, with: "Ralph")
+      click_button("Find Pet")
+
+      expect(page).to have_button("Adopt #{pet2.name}")
+
+      click_button("Adopt #{pet2.name}")
+      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(page).to have_content("Pets On This Application: Mr. Ralph")
+    end
+  end
 end
