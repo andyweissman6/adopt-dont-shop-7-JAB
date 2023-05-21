@@ -40,6 +40,13 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(page).to have_content(applicant1.description)
       expect(page).to have_content(applicant1.pets.name)
     end
+
+    it "should display pets on this application as buttons" do
+      visit "/applications/#{applicant1.id}"
+
+      expect(page).to have_button("Ralph")
+      expect(page).to_not have_button("Mr. Ralph")
+    end
   end
 
   describe "Searching for Pets for an Application" do
@@ -56,7 +63,6 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(current_path).to eq("/applications/#{applicant1.id}")
       expect(page).to have_content("Ralph")
       expect(page).to have_content("Mr. Ralph")
-      
     end
   end
 
@@ -71,7 +77,26 @@ RSpec.describe "Applications Show Page", type: :feature do
 
       click_button("Adopt #{pet2.name}")
       expect(current_path).to eq("/applications/#{applicant1.id}")
-      expect(page).to have_content("Pets On This Application: Mr. Ralph")
+      expect(page).to have_button("Mr. Ralph")
+    end
+  end
+
+  describe "displays a section to add description attribute to the application" do
+    it 'should display a field to add description of being a good adopter and when submitted it goes back to the show page' do
+      visit "applications/#{applicant1.id}"
+
+      expect(page).to have_button("Submit My Application")
+      
+      fill_in(:description, with: "I'm so good with pests!")
+      click_button("Submit My Application")
+
+      expect(current_path).to eq("/applications/#{applicant1.id}")
+      expect(page).to have_content("Description: I'm so good with pests!")
+      expect(page).to have_content("Status: Pending")
+      expect(page).to_not have_content("In Progress")
+      expect(page).to have_button("Ralph")
+      expect(page).to_not have_button("Submit My Application")
+      expect(page).to_not have_button("Find Pet")
     end
   end
 end

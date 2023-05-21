@@ -1,4 +1,5 @@
-<h1><center>Applications</h1>
+<center><img src="https://www.helpfulhorsehints.com/wp-content/uploads/horse-and-cat-nose-to-nose-ss220408-540x700.jpg.webp" alt="Horse_with_cat" width="200" height="300" ></center>
+<h1 style="background-color:grey;"><center>Applications</h1>
 <br>
 <li><b>Name: </b><%= @application.name %></li>
 <li><b>Street Address: </b><%= @application.street_address %></li>
@@ -11,11 +12,11 @@
 <br>
   <b>Pets On This Application: </b>
 <ul><% @application.pets.each do |pet|%>
-  <li><%= pet.name %></li>
+  <li><%= button_to "#{pet.name}", "/pets/#{pet.id}", method: :get %></li>
 <%end%></ul>
 
 <% if @application.status == "In Progress" %>
-<h1><center>Add a Pet to this Application</h1>
+<h1 style="background-color:grey;"><center>Add a Pet to this Application</h1>
   <%=form_with url: "/applications/#{@application.id}", method: :get, local: true do |form|%>
     <%= form.label :search %>
     <%= form.text_field :search %>
@@ -36,3 +37,16 @@
   <%end%>
 
 <%end%>
+<br>
+<br>
+<% if @application.status == "In Progress" && !@application.pets.nil? %>
+
+<h1 style="background-color:grey;"><center>Why Should This Pet Go To Your Home?</h1>
+  <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
+  <%= form.label :description, "Please provide a statement why you're a good host" %>
+  <%= form.text_field :description %>
+  <%= form.hidden_field :status, value: "Pending" %>
+
+  <%= form.submit "Submit My Application" %>
+  <% end %>
+<% end %>
