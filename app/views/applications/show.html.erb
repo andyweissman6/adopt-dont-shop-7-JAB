@@ -9,9 +9,10 @@
 <li><b>Description: </b><%= @application.description %>
 <br>
 <br>
-<li><% @application.pets.each do |pet|%>
-  <b>Pet Name: </b><%= pet.name %>
-<%end%></li>
+  <b>Pets On This Application: </b>
+<ul><% @application.pets.each do |pet|%>
+  <li><%= pet.name %></li>
+<%end%></ul>
 
 <% if @application.status == "In Progress" %>
 <h1><center>Add a Pet to this Application</h1>
@@ -24,7 +25,13 @@
 
   <% if params[:search] %>
     <% @found_pets.each do |found_pet| %>
-      <li><%= found_pet.name %></li>
+      <li><%= found_pet.name %><%= form_with url: "/pet_applications", method: :post, local: true do |form|%>
+        <%= form.hidden_field :application_id, value: @application.id %>
+        <%= form.hidden_field :pet_id, value: found_pet.id %>
+        <%= form.submit "Adopt #{found_pet.name}" %>
+        <%end%>
+      </li>
+    
     <%end%>
   <%end%>
 
