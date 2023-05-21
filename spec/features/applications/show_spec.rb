@@ -9,7 +9,7 @@ RSpec.describe "Applications Show Page", type: :feature do
                                             zip_code: "12345", 
                                             status: "In Progress", 
                                             description: "Cat Lover")} 
-  
+
   let!(:shelter1) { Shelter.create!(  name: "RM Animal Shelter", 
                                       foster_program: true, 
                                       city: "Denver", 
@@ -97,6 +97,25 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(page).to have_button("Ralph")
       expect(page).to_not have_button("Submit My Application")
       expect(page).to_not have_button("Find Pet")
+    end
+  end
+  describe "doesn't display sction to submit application" do
+    let!(:applicant3) { Application.create!( name: "Donny", 
+                                            street_address: "220 Soprano Ave", 
+                                            city: "Hoboken", 
+                                            state: "NJ", 
+                                            zip_code: "54321",
+                                            description: "unavailable")}
+
+    it "should not display a section to submit when there hasn't been any pets added to the application" do 
+      
+      visit "applications/#{applicant3.id}"
+
+      expect(page).to have_content("Pets On This Application:")
+      
+      expect(page).to_not have_content("Status: Pending")
+      expect(page).to_not have_content("Why Should This Pet Go To Your Home?")
+      expect(page).to_not have_button("Submit My Application")
     end
   end
 end
