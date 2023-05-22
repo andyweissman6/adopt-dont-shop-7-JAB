@@ -8,6 +8,9 @@ class Application < ApplicationRecord
   validates :state, presence: true
   validates :zip_code, length: { is: 5 }
   # validates :description, presence: true
-
+  
+  def self.pending_apps
+    Application.joins(pet_applications:[{pet: :shelter}]).where("applications.status = 'Pending'")
+  end
   
 end
