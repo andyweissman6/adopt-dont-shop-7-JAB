@@ -15,7 +15,7 @@ street_address: "420 Baller Street",
 city: "Boulder", 
 state: "CO", 
 zip_code: "12345",
-status: "Approved",
+status: "Pending",
 description: "Dog Lover") 
 
 shelter1 = Shelter.create!(  name: "RM Animal Shelter", 

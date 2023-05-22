@@ -24,6 +24,16 @@ RSpec.describe "Applications Show Page", type: :feature do
                                         adoptable: true, 
                                         age: 3, 
                                         breed: "Clydesdale")} 
+
+  let!(:pet3) { shelter1.pets.create!(  name: "Steve", 
+                                        adoptable: true, 
+                                        age: 3, 
+                                        breed: "Cat-Dog")} 
+
+  let!(:pet4) { shelter1.pets.create!(  name: "Dr. Steve", 
+                                        adoptable: true, 
+                                        age: 3, 
+                                        breed: "Dog-Cat")} 
   
   let!(:pet_application1) {PetApplication.create!(  pet_id: pet1.id,
                                                     application_id: applicant1.id)}
@@ -117,5 +127,34 @@ RSpec.describe "Applications Show Page", type: :feature do
       expect(page).to_not have_content("Why Should This Pet Go To Your Home?")
       expect(page).to_not have_button("Submit My Application")
     end
+  end
+
+  describe "Should display partial matches for pet names" do
+    let!(:applicant3) { Application.create!( name: "Donny", 
+                                            street_address: "220 Soprano Ave", 
+                                            city: "Hoboken", 
+                                            state: "NJ", 
+                                            zip_code: "54321",
+                                            description: "unavailable")}
+
+    it "should return pets with partial lettering and case insensitive" do
+
+      visit "/applications/#{applicant3.id}"
+
+      fill_in(:search, with:"STE")
+      click_button("Find Pet")
+
+      expect(current_path).to eq("/applications/#{applicant3.id}")
+      expect(page).to have_content("Steve")
+
+      visit "/applications/#{applicant3.id}"
+
+      fill_in(:search, with:"eve")
+      click_button("Find Pet")
+
+      expect(current_path).to eq("/applications/#{applicant3.id}")
+      expect(page).to have_content("Steve")
+
+    end 
   end
 end
