@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe Application, type: :model do
-  let!(:applicant1) { Application.create!( name: "Bruce", 
+  let!(:applicant1) { Application.create!(  name: "Bruce", 
                                             street_address: "123 Main Street", 
                                             city: "Denver", 
                                             state: "CO", 
