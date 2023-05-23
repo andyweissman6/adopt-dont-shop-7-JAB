@@ -1,0 +1,19 @@
+<h1><center>Admin Shelters</h1>
+
+<% @shelters.each do |shelter| %>
+  <b>Name:</b> <%= shelter.name %>
+<% end %>
+
+<br>
+<br>
+
+<h1><center>Shelters with Pending Applications</h1>
+
+<% @applications.each do |application| %>
+  <% if application.status == "Pending" %>
+    <% @shelters.each do |shelter| %>
+      <b>Name:</b> <%= shelter.name %>
+    <% end %>
+  <% end %>
+<% end %>
+
