@@ -16,5 +16,4 @@ class Application < ApplicationRecord
   def find_pet_app(pet_id)
     pet_applications.where(pet_id: pet_id).first
   end
-  
 end
