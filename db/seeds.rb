@@ -37,3 +37,6 @@ breed: "Clydesdale")
 
 pet_application1 = PetApplication.create!(  pet_id: pet1.id,
         application_id: applicant1.id)
+
+pet_application1 = PetApplication.create!(  pet_id: pet1.id,
+        application_id: applicant2.id)

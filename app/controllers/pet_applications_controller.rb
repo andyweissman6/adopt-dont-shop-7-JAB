@@ -1,8 +1,15 @@
 class PetApplicationsController < ApplicationController
   def create
-    application = Application.find(params[:application_id])
     pet_application = PetApplication.create!(pet_application_params)
+    application = pet_application.application
     redirect_to "/applications/#{application.id}"  
+  end
+
+  def update
+    pet_application = PetApplication.find(params[:id])
+    application = pet_application.application
+    pet_application.update(pet_application_params)
+    redirect_to "/admin/applications/#{application.id}"
   end
 
   private

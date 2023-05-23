@@ -1,12 +1,13 @@
 require "rails_helper"
 
 RSpec.describe Application, type: :model do
-  let!(:applicant1) { Application.create!( name: "Bruce", 
+  let!(:applicant1) { Application.create!(  name: "Bruce", 
                                             street_address: "123 Main Street", 
                                             city: "Denver", 
                                             state: "CO", 
                                             zip_code: "12345", 
-                                            description: "Cat Lover")} 
+                                            description: "Cat Lover",
+                                            status: "Pending")} 
   
   let!(:shelter1) { Shelter.create!(  name: "RM Animal Shelter", 
                                       foster_program: true, 
@@ -37,5 +38,18 @@ RSpec.describe Application, type: :model do
     it { should validate_presence_of(:state) }
     # it { should validate_presence_of(:description) }
     it { should validate_length_of(:zip_code).is_equal_to(5) }
+  end
+
+  describe "instance methods" do
+    it "#find_pet_app" do
+      expect(applicant1.find_pet_app(pet1.id)).to eq(pet_application1)
+    end
+  end
+
+  describe "class methods" do
+    it "::pending_apps" do
+
+      expect(Application.pending_apps).to eq([applicant1])
+    end
   end
 end

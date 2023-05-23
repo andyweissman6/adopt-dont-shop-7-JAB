@@ -1,0 +1,16 @@
+<h1> <center> Admin Applications </h1>
+
+<ul><% @pets.each do |pet| %>
+  <li><%= pet.name %>
+  <% pet_application = @application.find_pet_app(pet.id) %> <b style="color:darkgreen; background-color:lightgrey;"><%= "#{pet_application.pet_status}" %></b>
+  <% if pet_application.pet_status != "Approved" && pet_application.pet_status != "Rejected" %>
+    <%= form_with url: "/pet_applications/#{pet_application.id}", method: :patch, local: true do |form| %>
+      <%= form.hidden_field :pet_status, value: "Approved" %>
+      <%= form.submit "Approve The Application" %>
+    <% end %>
+    <%= form_with url: "/pet_applications/#{pet_application.id}", method: :patch, local: true do |form| %>
+      <%= form.hidden_field :pet_status, value: "Rejected" %>
+      <%= form.submit "Reject The Application" %>
+    <% end %> 
+  <% end %></li>
+<% end %></ul>

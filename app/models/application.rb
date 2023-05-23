@@ -12,5 +12,8 @@ class Application < ApplicationRecord
   def self.pending_apps
     Application.joins(pet_applications:[{pet: :shelter}]).where("applications.status = 'Pending'")
   end
-  
+
+  def find_pet_app(pet_id)
+    pet_applications.where(pet_id: pet_id).first
+  end
 end
