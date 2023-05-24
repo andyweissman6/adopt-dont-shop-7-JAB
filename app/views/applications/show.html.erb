@@ -17,12 +17,14 @@
 
 <% if @application.status == "In Progress" %>
 <h1 style="background-color:grey;"><center>Add a Pet to this Application</h1>
+  <section id="pet-search">
   <%=form_with url: "/applications/#{@application.id}", method: :get, local: true do |form|%>
     <%= form.label :search %>
     <%= form.text_field :search %>
     
     <%= form.submit "Find Pet" %>
   <%end%>
+  </section>
 
   <% if params[:search] %>
     <% @found_pets.each do |found_pet| %>
