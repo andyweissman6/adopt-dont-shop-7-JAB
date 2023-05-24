@@ -28,11 +28,14 @@
 
   <% if params[:search] %>
     <% @found_pets.each do |found_pet| %>
+      <section id="adopt-a-pet-<%=found_pet.id%>">
       <li><%= found_pet.name %><%= form_with url: "/pet_applications", method: :post, local: true do |form|%>
         <%= form.hidden_field :application_id, value: @application.id %>
         <%= form.hidden_field :pet_id, value: found_pet.id %>
         <%= form.submit "Adopt #{found_pet.name}" %>
         <%end%>
+      </section>
+
       </li>
     
     <%end%>
