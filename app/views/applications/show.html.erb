@@ -47,6 +47,7 @@
 <% if @application.status == "In Progress" && !@application.pets.empty? %>
 
 <h1 style="background-color:grey;"><center>Why Should This Pet Go To Your Home?</h1>
+  <section id="submit-app">
   <%= form_with url: "/applications/#{@application.id}", method: :patch, local: true do |form| %>
   <%= form.label :description, "Please provide a statement why you're a good host" %>
   <%= form.text_field :description %>
@@ -54,4 +55,5 @@
 
   <%= form.submit "Submit My Application" %>
   <% end %>
+  </section>
 <% end %>

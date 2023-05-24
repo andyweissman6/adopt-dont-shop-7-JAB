@@ -100,11 +100,12 @@ RSpec.describe "Applications Show Page", type: :feature do
     it 'should display a field to add description of being a good adopter and when submitted it goes back to the show page' do
       visit "applications/#{applicant1.id}"
 
-      expect(page).to have_button("Submit My Application")
+      within "#submit-app" do
+        expect(page).to have_button("Submit My Application")
       
-      fill_in(:description, with: "I'm so good with pests!")
-      click_button("Submit My Application")
-
+        fill_in(:description, with: "I'm so good with pests!")
+        click_button("Submit My Application")
+      end
       expect(current_path).to eq("/applications/#{applicant1.id}")
       expect(page).to have_content("Description: I'm so good with pests!")
       expect(page).to have_content("Status: Pending")
