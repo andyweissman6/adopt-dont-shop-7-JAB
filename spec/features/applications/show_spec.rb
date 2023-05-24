@@ -62,13 +62,16 @@ RSpec.describe "Applications Show Page", type: :feature do
   describe "Searching for Pets for an Application" do
     it "should display a section that allows you to search for pets" do
       visit "/applications/#{applicant1.id}"
+
       expect(page).to have_content("Add a Pet to this Application")
-      expect(page).to have_button("Find Pet")
       
-      
-      fill_in(:search, with: "Ralph")
-      click_button("Find Pet")
-      
+      within("#pet-search") do
+        expect(page).to have_button("Find Pet")
+        
+        
+        fill_in(:search, with: "Ralph")
+        click_button("Find Pet")
+      end
 
       expect(current_path).to eq("/applications/#{applicant1.id}")
       expect(page).to have_content("Ralph")
@@ -79,13 +82,15 @@ RSpec.describe "Applications Show Page", type: :feature do
   describe "displays a button to adopt a pet next to each search results" do
     it "should display a button to adopt a pet next to each search result and be directed back to the same page" do
       visit "/applications/#{applicant1.id}"
-
+      
       fill_in(:search, with: "Ralph")
       click_button("Find Pet")
 
-      expect(page).to have_button("Adopt #{pet2.name}")
+      within("#adopt-a-pet-#{pet2.id}") do
+        expect(page).to have_button("Adopt #{pet2.name}")
 
-      click_button("Adopt #{pet2.name}")
+        click_button("Adopt #{pet2.name}")
+      end
       expect(current_path).to eq("/applications/#{applicant1.id}")
       expect(page).to have_button("Mr. Ralph")
     end
@@ -95,11 +100,12 @@ RSpec.describe "Applications Show Page", type: :feature do
     it 'should display a field to add description of being a good adopter and when submitted it goes back to the show page' do
       visit "applications/#{applicant1.id}"
 
-      expect(page).to have_button("Submit My Application")
+      within "#submit-app" do
+        expect(page).to have_button("Submit My Application")
       
-      fill_in(:description, with: "I'm so good with pests!")
-      click_button("Submit My Application")
-
+        fill_in(:description, with: "I'm so good with pests!")
+        click_button("Submit My Application")
+      end
       expect(current_path).to eq("/applications/#{applicant1.id}")
       expect(page).to have_content("Description: I'm so good with pests!")
       expect(page).to have_content("Status: Pending")
